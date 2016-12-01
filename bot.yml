@@ -2,7 +2,7 @@ name: lone-tree-bot
 description: ☝️☝️ Check out the README ☝️☝️ in the repo for setup instructions. By the way, this is just the description in the bot.yml file - feel free to change it 😉
 avatar: .beepboop/avatar.png
 config:
-  - name: TWILIO_SID
+  - name: TWILIO_ACCOUNT_SID
     friendly_name: Twilio Account SID
     type: secret
     global: false
