@@ -17,6 +17,9 @@ var slapp = Slapp({
   context: Context()
 })
 
+console.log('process.env.TWILIO_ACCOUNT_SID', process.env.TWILIO_ACCOUNT_SID)
+console.log('process.env.TWILIO_AUTH_TOKEN',  process.env.TWILIO_AUTH_TOKEN)
+
 var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 var HELP_TEXT = `
