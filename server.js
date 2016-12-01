@@ -110,7 +110,7 @@ slapp.message('attachment', ['mention', 'direct_message'], (msg) => {
 slapp.message('^(tell|sms)$', ['direct_message'], (msg) => {
     msg.say(msg)
     //Send an SMS text message
-    client.sendMessage({
+    twilio.sendMessage({
 
         to:'+3037256611', // Any number Twilio can deliver to
         from: senderNum, // A number you bought from Twilio and can use for outbound communication
