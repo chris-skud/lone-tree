@@ -20,7 +20,8 @@ var slapp = Slapp({
 console.log('process.env.TWILIO_ACCOUNT_SID', process.env.TWILIO_ACCOUNT_SID)
 console.log('process.env.TWILIO_AUTH_TOKEN',  process.env.TWILIO_AUTH_TOKEN)
 
-var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+// var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+var client = {}
 
 var HELP_TEXT = `
 I will respond to the following messages:
