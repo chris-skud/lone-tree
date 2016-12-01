@@ -9,5 +9,5 @@ config:
   - name: TWILIO_AUTH_TOKEN
     friendly_name: Twilio Auth Token
     type: secret
-    global:true
+    global: true
 # To learn everything supported in the bot.yml file, visit https://beepboophq.com/docs/article/bot-yml
