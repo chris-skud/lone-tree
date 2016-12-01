@@ -4,6 +4,8 @@ const express = require('express')
 const Slapp = require('slapp')
 const ConvoStore = require('slapp-convo-beepboop')
 const Context = require('slapp-context-beepboop')
+const twilio = require('twilio')(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+const senderNum = '+17207702060'
 
 // use `PORT` env var on Beep Boop - default to 3000 locally
 var port = process.env.PORT || 3000
@@ -103,6 +105,30 @@ slapp.message('attachment', ['mention', 'direct_message'], (msg) => {
       color: '#7CD197'
     }]
   })
+})
+
+slapp.message('^(tell|sms)$', ['direct_message'], (msg) => {
+    msg.say(msg)
+    //Send an SMS text message
+    client.sendMessage({
+
+        to:'+3037256611', // Any number Twilio can deliver to
+        from: senderNum, // A number you bought from Twilio and can use for outbound communication
+        body: msg // body of the SMS message
+
+    }, function(err, responseData) { //this function is executed when a response is received from Twilio
+
+        if (!err) { // "err" is an error received during the request, if any
+
+            // "responseData" is a JavaScript object containing data received from Twilio.
+            // A sample response from sending an SMS message is here (click "JSON" to see how the data appears in JavaScript):
+            // http://www.twilio.com/docs/api/rest/sending-sms#example-1
+
+            console.log(responseData.from); // outputs "+14506667788"
+            console.log(responseData.body); // outputs "word to your mother."
+
+        }
+    })
 })
 
 // Catch-all for any other responses not handled above
