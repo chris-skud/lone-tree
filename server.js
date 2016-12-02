@@ -31,7 +31,7 @@ I will respond to the following messages:
 
 // response to the user typing "help"
 slapp.message('help', ['mention', 'direct_message'], (msg) => {
-  console.log(msg)
+  console.log(msg.meta.config)
   msg.say(HELP_TEXT)
 })
 
