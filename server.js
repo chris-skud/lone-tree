@@ -4,11 +4,9 @@ const express = require('express')
 const Slapp = require('slapp')
 const ConvoStore = require('slapp-convo-beepboop')
 const Context = require('slapp-context-beepboop')
-const twilio = require('twilio')
-const senderNum = '+17207702060'
 
-// use `PORT` env var on Beep Boop - default to 3000 locally
-var port = process.env.PORT || 8090
+// use `PORT` env var on Beep Boop - default to 9080 locally
+var port = process.env.PORT || 9080
 
 var slapp = Slapp({
   // Beep Boop sets the SLACK_VERIFY_TOKEN env var
@@ -17,11 +15,6 @@ var slapp = Slapp({
   context: Context()
 })
 
-console.log('process.env.TWILIO_ACCOUNT_SID', process.env.TWILIO_ACCOUNT_SID)
-console.log('process.env.TWILIO_AUTH_TOKEN',  process.env.TWILIO_AUTH_TOKEN)
-
-// var client = new twilio.RestClient(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
-var client = {}
 
 var HELP_TEXT = `
 I will respond to the following messages:
@@ -86,24 +79,30 @@ slapp
     // At this point, since we don't route anywhere, the "conversation" is over
   })
 
-slapp.message('^sms', ['direct_message'], (msg) => {
-  msg.say(msg)
-  // client.sms.messages.create({
-  //     to:'+13037256611',
-  //     from:'+17207702060',
-  //     body: msg
-  // }, function(error, message) {
-  //     if (!error) {
-  //         console.log('Success! The SID for this SMS message is:')
-  //         console.log(message.sid)
-  //
-  //         console.log('Message sent on:')
-  //         console.log(message.dateCreated)
-  //     } else {
-  //         console.log('Oops! There was an error.')
-  //         console.log(error)
-  //     }
-  // })
+// Can use a regex as well
+slapp.message(/^(thanks|thank you)/i, ['mention', 'direct_message'], (msg) => {
+  // You can provide a list of responses, and a random one will be chosen
+  // You can also include slack emoji in your responses
+  msg.say([
+    "You're welcome :smile:",
+    'You bet',
+    ':+1: Of course',
+    'Anytime :sun_with_face: :full_moon_with_face:'
+  ])
+})
+
+// demonstrate returning an attachment...
+slapp.message('attachment', ['mention', 'direct_message'], (msg) => {
+  msg.say({
+    text: 'Check out this amazing attachment! :confetti_ball: ',
+    attachments: [{
+      text: 'Slapp is a robust open source library that sits on top of the Slack APIs',
+      title: 'Slapp Library - Open Source',
+      image_url: 'https://storage.googleapis.com/beepboophq/_assets/bot-1.22f6fb.png',
+      title_link: 'https://beepboophq.com/',
+      color: '#7CD197'
+    }]
+  })
 })
 
 // Catch-all for any other responses not handled above
@@ -116,6 +115,10 @@ slapp.message('.*', ['direct_mention', 'direct_message'], (msg) => {
 
 // attach Slapp to express server
 var server = slapp.attachToExpress(express())
+
+server.get('/', function(req, res) {
+  res.send('hi')
+})
 
 // start http server
 server.listen(port, (err) => {
