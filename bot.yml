@@ -5,9 +5,9 @@ config:
   - name: TWILIO_ACCOUNT_SID
     friendly_name: Twilio Account SID
     type: secret
-    global: true
+    team: true
   - name: TWILIO_AUTH_TOKEN
     friendly_name: Twilio Auth Token
     type: secret
-    global: true
+    team: true
 # To learn everything supported in the bot.yml file, visit https://beepboophq.com/docs/article/bot-yml
